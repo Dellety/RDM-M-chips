@@ -82,8 +82,27 @@ upstream README, preserved verbatim as a quotation and for attribution:
 > displayed. I don't know what is the license by its authors because it came 100%
 > uncommented and undocumented. But I'm sure they would enjoy you to freely use it. Me too.
 
-## License
+## License & attribution
 
-Distributed under the GNU General Public License v3.0, same as upstream. The
-core display-switching logic is the work of the original authors; this fork
-only ports the build to native arm64.
+**Upstream RDM is released without an explicit license.** The upstream
+repository ([avibrazil/RDM](https://github.com/avibrazil/RDM)) carries no
+LICENSE file and no license declaration, and its README states the original
+author is unsure of the code's license because "it came 100% uncommented and
+undocumented." The earlier `Distributed under GNU General Public License v3.0`
+notice in `Info.plist` had no basis and has been removed.
+
+What is known:
+
+- The upstream author explicitly invites free use: *"I'm sure they would enjoy
+  you to freely use it. Me too."*
+- The software is provided without warranty or support.
+
+This fork inherits that same informal "free to use, no warranty" understanding.
+It is intended for personal and small-team use. If you require a clear license
+for redistribution or commercial use, you would need to contact the original
+authors.
+
+Contributions to this fork:
+
+- **v2.3** — Native Apple Silicon (arm64) port: rebuilt with clang++, migrated
+  to ARC, fixed `-Wall -Wextra` warnings. ([@Dellety](https://github.com/Dellety))

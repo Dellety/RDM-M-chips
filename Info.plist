@@ -21,7 +21,7 @@
 	<key>NSHighResolutionCapable</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>Distributed under GNU General Public License v3.0</string>
+	<string>Free to use, without warranty. Upstream RDM (Avi Alkalay &amp; contributors) is released without an explicit license.</string>
 	<key>CFBundleVersion</key>
 	<string>2.3</string>
 	<key>CFBundleShortVersionString</key>
