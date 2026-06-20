@@ -26,7 +26,6 @@
 		
 		colorDepth = (mode->derived.depth == 4) ? 32 : 16;
 		
-		
 		NSString* title;
 		if(scale == 2.0f)
 		{

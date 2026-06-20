@@ -3,13 +3,19 @@
 PREFIX=/usr
 IDENTIFIER=net.alkalay.RDM
 
-VERSION=2.2
+VERSION=2.3
 
-CC=llvm-g++
+CC=clang++
 PACKAGE_BUILD=/usr/bin/pkgbuild
-ARCH_FLAGS=-arch x86_64
+ARCH_FLAGS=-arch arm64
+WARN_FLAGS=-Wall -Wextra
+DEPLOYMENT_TARGET=-mmacosx-version-min=11.0
+OBJC_FLAGS=-fobjc-arc $(WARN_FLAGS) $(DEPLOYMENT_TARGET)
 
-.PHONY: build
+.PHONY: build clean pkg dmg install
+
+# Default target: build the .app bundle
+build: RDM.app
 
 RDM.app: SetResX Resources Info.plist monitor.icns
 	mkdir -p RDM.app/Contents/MacOS/
@@ -21,8 +27,8 @@ RDM.app: SetResX Resources Info.plist monitor.icns
 	mv monitor.icns RDM.app/Contents/Resources
 
 
-SetResX: main.o SRApplicationDelegate.o ResMenuItem.o cmdline.o utils.o 
-	$(CC) $^ -o $@ $(ARCH_FLAGS) -framework Foundation -framework ApplicationServices -framework AppKit 
+SetResX: main.o SRApplicationDelegate.o ResMenuItem.o cmdline.o utils.o
+	$(CC) $^ -o $@ $(ARCH_FLAGS) $(DEPLOYMENT_TARGET) -framework Foundation -framework ApplicationServices -framework AppKit
 
 
 clean:
@@ -34,7 +40,7 @@ clean:
 	rm -f *.pkg *.dmg
 
 %.o: %.mm
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(ARCH_FLAGS) $< -c -o $@
+	$(CC) $(OBJC_FLAGS) $(ARCH_FLAGS) $< -c -o $@
 
 
 %.icns: %.png
@@ -56,5 +62,3 @@ dmg: pkg
 		-o "RDM-$(VERSION).dmg" dmgroot/
 	rm -f RDM.dmg
 	ln -s RDM-$(VERSION).dmg RDM.dmg
-
-.PHONY: pkg dmg install build clean

@@ -26,17 +26,18 @@ int main(int argc, const char* argv[])
 						"  --displays (-ld) List available displays\n"
 						"  --modes    (-lm) List available modes\n"
 						"\nCurrently running GUI.  Use ^C or close from menu\n");
-		
-		NSAutoreleasePool* pool = [NSAutoreleasePool new];
-		NSApplication* app = [NSApplication sharedApplication];
+			
+			@autoreleasepool {
+				NSApplication* app = [NSApplication sharedApplication];
 
-		[app setDelegate: [SRApplicationDelegate new]];
+				[app setDelegate: [SRApplicationDelegate new]];
 
-		//NSApplication* app = [SRApplication sharedApplication];
-		[app performSelectorOnMainThread: @selector(run) withObject: nil waitUntilDone: YES];
-
-		[pool release];
-	}
+				//NSApplication* app = [SRApplication sharedApplication];
+				[app performSelectorOnMainThread: @selector(run) withObject: nil waitUntilDone: YES];
+			}
+			
+			
+		}
 	
 	
 }

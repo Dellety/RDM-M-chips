@@ -10,9 +10,8 @@
 int cmdline_main(int argc, const char * argv[])
 {
 	//exit(0);
-	
-	NSAutoreleasePool* pool = [NSAutoreleasePool new];
- 	{
+
+	@autoreleasepool {
 		int width = 0;
 		int height = 0;
 		CGFloat scale = 0.0f;
@@ -138,7 +137,7 @@ int cmdline_main(int argc, const char * argv[])
 	    
 		if(displayNo > 0)
 		{
-			if(displayNo > nDisplays -1)
+			if(displayNo > (int)nDisplays -1)
 			{
 				fprintf(stderr, "Error: display index %d exceeds display count %d\n", displayNo, nDisplays);
 				exit(1);
@@ -152,7 +151,7 @@ int cmdline_main(int argc, const char * argv[])
 		
 		if(listDisplays)
 		{
-			for(int i=0; i<nDisplays; i++)
+			for(int i=0; i<(int)nDisplays; i++)
 			{
 				int modeNum;
 				CGSGetCurrentDisplayMode(display, &modeNum);
@@ -176,18 +175,18 @@ int cmdline_main(int argc, const char * argv[])
 			for(int i=0; i<nModes; i++)
 			{
 				modes_D4 mode = modes[i];
-				if(width && mode.derived.width != width)
+				if(width && (int)mode.derived.width != width)
 					continue;
-				if(height && mode.derived.height != height)
+				if(height && (int)mode.derived.height != height)
 					continue;
 				int mBitres = (mode.derived.depth == 4) ? 32 : 16;
 				if(bitRes && mBitres != bitRes)
 					continue;
 				if(scale && mode.derived.density != scale)
 					continue;
-				
+
 				fprintf(stdout, "mode: {resolution=%dx%d, scale = %.1f, freq = %d, bits/pixel = %d}\n", mode.derived.width, mode.derived.height, mode.derived.density, mode.derived.freq, mBitres);
-				
+
 			}
 			
 			free(modes);
@@ -272,9 +271,9 @@ int cmdline_main(int argc, const char * argv[])
 			for(int i=0; i<nModes; i++)
 			{
 				modes_D4 mode = modes[i];
-				if(width && mode.derived.width != width)
+				if(width && (int)mode.derived.width != width)
 					continue;
-				if(height && mode.derived.height != height)
+				if(height && (int)mode.derived.height != height)
 					continue;
 				int mBitres = (mode.derived.depth == 4) ? 32 : 16;
 				if(bitRes && mBitres != bitRes)
@@ -298,9 +297,8 @@ int cmdline_main(int argc, const char * argv[])
 			
 			free(modes);
 		}
-		
-		
+
+
     }
-	[pool release];
     return 0;
 }

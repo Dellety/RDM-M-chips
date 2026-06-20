@@ -1,5 +1,7 @@
 
 
+#import <CoreGraphics/CoreGraphics.h>
+
 typedef union
 {
 	uint8_t rawData[0xDC];

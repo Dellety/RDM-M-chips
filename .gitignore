@@ -1,0 +1,16 @@
+# Build artifacts
+*.o
+*.icns
+SetResX
+
+# App bundle
+RDM.app/
+
+# Packaging
+*.pkg
+*.dmg
+pkgroot/
+dmgroot/
+
+# macOS
+.DS_Store

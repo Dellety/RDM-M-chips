@@ -30,17 +30,14 @@
 
 
 - (void) refreshStatusMenu
-{
-	if(statusMenu)
-		[statusMenu release];
-	
-	statusMenu = [[NSMenu alloc] initWithTitle: @""];
+	{
+		statusMenu = [[NSMenu alloc] initWithTitle: @""];
 	
 	uint32_t nDisplays;
 	CGDirectDisplayID displays[0x10];
 	CGGetOnlineDisplayList(0x10, displays, &nDisplays);
 	
-	for(int i=0; i<nDisplays; i++)
+		for(int i=0; i<(int)nDisplays; i++)
 	{
 		CGDirectDisplayID display = displays[i];
 		{
@@ -70,14 +67,12 @@
 			for(int j = 0; j <nModes; j++)
 		    {
 				ResMenuItem* item = [[ResMenuItem alloc] initWithDisplay: display andMode: &modes[j]];
-				//[item autorelease];
 				if(mainModeNum == j)
 				{
 					mainItem = item;
-					[item setState: NSOnState];	
+					[item setState: NSControlStateValueOn];	
 				}
 				[displayMenuItems addObject: item];
-				[item release];
 			}
 			int idealColorDepth = 32;
 			double idealRefreshRate = 0.0f;
@@ -87,12 +82,12 @@
 				idealRefreshRate = [mainItem refreshRate];
 			}
 			[displayMenuItems sortUsingSelector: @selector(compareResMenuItem:)];
-		
-		
+
+
 			NSMenu* submenu = [[NSMenu alloc] initWithTitle: @""];
-			
+
 			ResMenuItem* lastAddedItem = nil;
-			for(int j=0; j < [displayMenuItems count]; j++)
+			for(int j=0; j < (int)[displayMenuItems count]; j++)
 			{
 				ResMenuItem* item = [displayMenuItems objectAtIndex: j];
 				if([item colorDepth] == idealColorDepth)
@@ -140,11 +135,9 @@
 			
 			NSMenuItem* resolution = [[NSMenuItem alloc] initWithTitle: title action: nil keyEquivalent: @""];
 			[resolution setSubmenu: submenu];
-			[submenu release];
 			[statusMenu addItem: resolution];
-			[resolution release];
-			
-			[displayMenuItems release];
+
+			displayMenuItems = nil;
 		}
 		
 		{
@@ -154,14 +147,12 @@
 		    {
 				ResMenuItem* item = [[ResMenuItem alloc] initWithDisplay: display andMode: &modes[j]];
 				[item setTextFormat: 2];
-				//[item autorelease];
 				if(mainModeNum == j)
 				{
 					mainItem = item;
-					[item setState: NSOnState];	
+					[item setState: NSControlStateValueOn];	
 				}
 				[displayMenuItems addObject: item];
-				[item release];
 			}
 			int idealColorDepth = 32;
 			double idealRefreshRate = 0.0f;
@@ -174,7 +165,7 @@
 			
 			
 			NSMenu* submenu = [[NSMenu alloc] initWithTitle: @""];
-			for(int j=0; j< [displayMenuItems count]; j++)
+			for(int j=0; j< (int)[displayMenuItems count]; j++)
 			{
 				ResMenuItem* item = [displayMenuItems objectAtIndex: j];
 				if([item colorDepth] == idealColorDepth)
@@ -198,11 +189,9 @@
 					[freq setEnabled: NO];
 				}
 				[statusMenu addItem: freq];
-				[freq release];
 			}
-			[submenu release];
 			
-			[displayMenuItems release];
+			displayMenuItems = nil;
 			
 		}
 		
@@ -241,15 +230,21 @@
 - (void) applicationDidFinishLaunching: (NSNotification*) notification
 {
 //	NSLog(@"Finished launching");
-	statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength: NSSquareStatusItemLength] retain];
+	statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength: NSSquareStatusItemLength];
 	
 	NSImage* statusImage = [NSImage imageNamed: @"StatusIcon"];
-	[statusItem setImage: statusImage];
+	[statusItem.button setImage: statusImage];
+	// setHighlightMode: is deprecated in 10.14; the suggested replacement
+	// (button.cell.highlightsBy) has subtle behavior differences, so we keep
+	// the original call and silence the deprecation for this line only.
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	[statusItem setHighlightMode: YES];
+	#pragma clang diagnostic pop
 
   BOOL supportsDarkMenu = !(floor(NSAppKitVersionNumber) < 1343);  // NSAppKitVersionNumber10_10
   if (supportsDarkMenu) {
-    [[statusItem image] setTemplate:YES];
+    [statusImage setTemplate:YES];
   }
 
 	[self refreshStatusMenu];
