@@ -21,11 +21,18 @@ can be set to a native 3360×2100 instead of Apple's max 1680×1050.
 ## Install from a release
 
 1. Download `RDM-2.3.dmg` from the [Releases page](../../releases).
-2. Open the DMG and drag `RDM.app` to `/Applications`.
-   - If the upstream RDM 2.2 is already installed, this **overwrites it in
-     place** — your preferences are preserved (same bundle ID
-     `net.alkalay.RDM`).
-3. Launch `RDM.app`. A monitor icon appears in the menu bar.
+2. Open the DMG. You'll see `RDM.app` next to an `Applications` folder shortcut.
+3. **Drag `RDM.app` onto the `Applications` folder.** This installs it to
+   `/Applications`. If an older RDM 2.2 is already there, it's replaced in
+   place — your preferences are preserved (same bundle ID
+   `net.alkalay.RDM`).
+4. Eject the DMG, then launch `RDM.app` from `/Applications` (or Spotlight).
+   A monitor icon appears in the menu bar.
+
+> **Why a drag-and-drop DMG instead of a `.pkg`?** Earlier releases used
+> `pkgbuild`, which emits AppleDouble (`._*`) metadata into its payload and
+> produces a broken install. A plain `.app` inside a DMG is the standard way
+> to distribute an unsigned macOS app and avoids that issue entirely.
 
 ### First launch on a colleague's Mac (unsigned build)
 
@@ -51,7 +58,7 @@ Requirements: macOS Command Line Tools (no full Xcode needed).
 
 ```sh
 make build      # produces RDM.app
-make dmg        # produces RDM-2.3.dmg (also runs build + pkg)
+make dmg        # produces RDM-2.3.dmg (drag-and-drop distribution)
 make clean      # remove build artifacts
 ```
 
