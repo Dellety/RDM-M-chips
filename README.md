@@ -1,5 +1,7 @@
 # RDM (Retina Display Menu)
 
+> 中文文档：[README.zh-CN.md](README.zh-CN.md)
+
 A menu bar tool for switching MacBook Pro Retina displays to higher native
 resolutions that Apple does not expose in System Settings.
 
@@ -28,11 +30,6 @@ can be set to a native 3360×2100 instead of Apple's max 1680×1050.
    `net.alkalay.RDM`).
 4. Eject the DMG, then launch `RDM.app` from `/Applications` (or Spotlight).
    A monitor icon appears in the menu bar.
-
-> **Why a drag-and-drop DMG instead of a `.pkg`?** Earlier releases used
-> `pkgbuild`, which emits AppleDouble (`._*`) metadata into its payload and
-> produces a broken install. A plain `.app` inside a DMG is the standard way
-> to distribute an unsigned macOS app and avoids that issue entirely.
 
 ### First launch on a colleague's Mac (unsigned build)
 
